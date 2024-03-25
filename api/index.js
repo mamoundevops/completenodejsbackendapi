@@ -3,6 +3,9 @@ import cookieParser from "cookie-parser";
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
+// import routes
+import userRouter from './routes/user.route.js';
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -20,3 +23,6 @@ mongoose
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port 5000");
 });
+
+
+app.use('/api/user', userRouter);
