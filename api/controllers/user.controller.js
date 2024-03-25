@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
- 
+import Property from '../models/property.model.js';
 
 export const test = (req, res) => {
   res.json({
@@ -62,5 +62,18 @@ export const getUser = async (req, res, next) => {
     res.status(200).json(rest);
   } catch (error) {
     next(error);
+  }
+};
+
+export const getUserPropertiess = async (req, res, next) => {
+  if (req.user.id === req.params.id) {
+    try {
+      const properties = await Property.find({ userRef: req.params.id });
+      res.status(200).json(properties);
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    return next(errorHandler(401, 'You can only view your own properties!'));
   }
 };
